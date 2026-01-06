@@ -30,6 +30,7 @@ const Contact = () => {
     email: '',
     subject: '',
     message: '',
+    website: '', // Honeypot field - should remain empty
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,7 +78,7 @@ const Contact = () => {
         description: data?.message || 'Thank you for contacting us. We\'ll get back to you soon.',
       });
       
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', subject: '', message: '', website: '' });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Record<string, string> = {};
@@ -268,6 +269,20 @@ const Contact = () => {
                       placeholder="Tell us more about your inquiry..."
                     />
                     {errors.message && <p className="text-destructive text-sm mt-1">{errors.message}</p>}
+                  </div>
+
+                  {/* Honeypot field - hidden from real users, bots will fill it */}
+                  <div className="absolute -left-[9999px]" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
                   </div>
 
                   <Button
