@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,13 +15,11 @@ interface ContactFormRequest {
 }
 
 // Simple in-memory rate limiting (resets on function restart)
-// For production, consider using Supabase storage or Redis
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in ms
 const MAX_REQUESTS_PER_WINDOW = 5;
 
 function getClientIP(req: Request): string {
-  // Try various headers that might contain the client IP
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) {
     return forwarded.split(",")[0].trim();
@@ -29,7 +28,6 @@ function getClientIP(req: Request): string {
   if (realIP) {
     return realIP;
   }
-  // Fallback - use a hash of user-agent as identifier
   const userAgent = req.headers.get("user-agent") || "unknown";
   return `ua-${hashString(userAgent)}`;
 }
@@ -48,7 +46,6 @@ function checkRateLimit(clientIP: string): { allowed: boolean; retryAfter?: numb
   const now = Date.now();
   const record = rateLimitMap.get(clientIP);
 
-  // Clean up old entries periodically
   if (rateLimitMap.size > 1000) {
     for (const [key, value] of rateLimitMap.entries()) {
       if (now > value.resetTime) {
@@ -58,7 +55,6 @@ function checkRateLimit(clientIP: string): { allowed: boolean; retryAfter?: numb
   }
 
   if (!record || now > record.resetTime) {
-    // First request or window expired
     rateLimitMap.set(clientIP, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
     return { allowed: true };
   }
@@ -72,7 +68,6 @@ function checkRateLimit(clientIP: string): { allowed: boolean; retryAfter?: numb
   return { allowed: true };
 }
 
-// Server-side validation
 function validateContactForm(data: unknown): { valid: boolean; errors: Record<string, string> } {
   const errors: Record<string, string> = {};
   
@@ -82,10 +77,9 @@ function validateContactForm(data: unknown): { valid: boolean; errors: Record<st
 
   const form = data as Record<string, unknown>;
 
-  // Honeypot check - if website field is filled, it's likely a bot
+  // Honeypot check
   if (form.website && typeof form.website === 'string' && form.website.trim().length > 0) {
-    console.log("Honeypot triggered - likely bot submission");
-    // Return success to not alert the bot, but don't process
+    console.log("Honeypot triggered - bot submission blocked");
     return { valid: false, errors: { _honeypot: 'Bot detected' } };
   }
 
@@ -142,7 +136,6 @@ function validateContactForm(data: unknown): { valid: boolean; errors: Record<st
 }
 
 const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -159,7 +152,7 @@ const handler = async (req: Request): Promise<Response> => {
   const rateLimit = checkRateLimit(clientIP);
   
   if (!rateLimit.allowed) {
-    console.log(`Rate limit exceeded for IP: ${clientIP}`);
+    console.log("Rate limit exceeded");
     return new Response(
       JSON.stringify({ 
         error: "Too many requests. Please try again later.",
@@ -179,12 +172,11 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const body = await req.json();
     
-    // Server-side validation (includes honeypot check)
+    // Validation (includes honeypot check)
     const validation = validateContactForm(body);
     
-    // Special handling for honeypot - return success to not alert bots
+    // Honeypot triggered - return fake success
     if (validation.errors._honeypot) {
-      console.log("Silently rejecting bot submission");
       return new Response(
         JSON.stringify({ 
           success: true, 
@@ -195,7 +187,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
     
     if (!validation.valid) {
-      console.log("Validation failed:", validation.errors);
+      console.log("Validation failed");
       return new Response(
         JSON.stringify({ success: false, errors: validation.errors }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -204,23 +196,34 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { name, email, subject, message } = body as ContactFormRequest;
 
-    // Log the submission (for auditing purposes)
-    console.log("Contact form submission received:", {
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim(),
-      messageLength: message.trim().length,
-      clientIP: clientIP,
-      timestamp: new Date().toISOString(),
-    });
+    // Create Supabase client with service role for database insert
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    );
 
-    // Here you could add:
-    // 1. Store in database
-    // 2. Send email via Resend (if RESEND_API_KEY is configured)
-    // 3. Send to a webhook
-    // 4. Integrate with a CRM
+    // Store submission in database
+    const { error: dbError } = await supabaseAdmin
+      .from('contact_submissions')
+      .insert({
+        name: name.trim(),
+        email: email.trim(),
+        subject: subject.trim(),
+        message: message.trim(),
+        client_ip: clientIP
+      });
 
-    // For now, we acknowledge the submission was received and processed
+    if (dbError) {
+      console.error("Database error:", dbError.message);
+      return new Response(
+        JSON.stringify({ error: "Failed to save your message. Please try again." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Log success without sensitive data
+    console.log("Contact submission saved", { timestamp: new Date().toISOString() });
+
     return new Response(
       JSON.stringify({ 
         success: true, 
