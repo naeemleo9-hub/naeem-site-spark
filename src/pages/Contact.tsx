@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send, MessageSquare, Clock, Facebook, Instagram, Youtube, Linkedin, Twitter } from 'lucide-react';
+import { Mail, MapPin, Send, MessageSquare, Clock, Facebook, Instagram, Youtube, Linkedin, Twitter } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/layout/Layout';
 import { z } from 'zod';
+import { supabase } from '@/integrations/supabase/client';
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(100, 'Name must be less than 100 characters'),
@@ -47,14 +48,33 @@ const Contact = () => {
     setErrors({});
 
     try {
+      // Client-side validation first
       contactSchema.parse(formData);
       
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Submit to backend edge function
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
+        body: formData
+      });
+
+      if (error) {
+        console.error('Submission error:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to send your message. Please try again.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      if (data?.success === false && data?.errors) {
+        // Server-side validation errors
+        setErrors(data.errors);
+        return;
+      }
       
       toast({
         title: 'Message Sent!',
-        description: 'Thank you for contacting us. We\'ll get back to you soon.',
+        description: data?.message || 'Thank you for contacting us. We\'ll get back to you soon.',
       });
       
       setFormData({ name: '', email: '', subject: '', message: '' });
@@ -67,6 +87,13 @@ const Contact = () => {
           }
         });
         setErrors(newErrors);
+      } else {
+        console.error('Unexpected error:', error);
+        toast({
+          title: 'Error',
+          description: 'An unexpected error occurred. Please try again.',
+          variant: 'destructive',
+        });
       }
     } finally {
       setIsSubmitting(false);
