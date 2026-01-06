@@ -41,12 +41,45 @@ const stats = [
 ];
 
 const About = () => {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Naeem Online Store",
+    "description": "Learn about Naeem Online Store's mission to deliver AI-powered digital solutions.",
+    "url": "https://naeemonlinestore.com/about",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Naeem Online Store",
+      "description": "Your one-stop destination for AI-powered digital products, Digestor 24 solutions, and free online tools.",
+      "url": "https://naeemonlinestore.com",
+      "foundingDate": "2023",
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "value": "10-50"
+      },
+      "slogan": "Empowering Your Digital Journey",
+      "knowsAbout": ["AI-powered products", "Digital productivity tools", "Online utilities"],
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=100088800220083",
+        "https://www.instagram.com/naeemonlinestore/",
+        "https://youtube.com/@naeemonlinestore5053",
+        "https://www.linkedin.com/groups/9399204",
+        "https://twitter.com/Naeem0nlineStor"
+      ]
+    }
+  };
+
   return (
     <Layout>
       <Helmet>
         <title>About Us - Our Story & Mission | Naeem Online Store</title>
         <meta name="description" content="Learn about Naeem Online Store's mission to deliver AI-powered digital solutions. Discover our values, story, and commitment to innovation." />
         <link rel="canonical" href="https://naeemonlinestore.com/about" />
+        <meta property="og:title" content="About Us - Our Story & Mission | Naeem Online Store" />
+        <meta property="og:description" content="Learn about Naeem Online Store's mission to deliver AI-powered digital solutions." />
+        <meta property="og:url" content="https://naeemonlinestore.com/about" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify(aboutSchema)}</script>
       </Helmet>
 
       {/* Hero Section */}
