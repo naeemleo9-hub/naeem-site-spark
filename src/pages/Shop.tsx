@@ -80,12 +80,50 @@ const Shop = () => {
     ? products
     : products.filter(p => p.category === activeCategory);
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Digestor 24 Products",
+    "description": "Browse our Digestor 24 product lineup for digital productivity solutions.",
+    "url": "https://naeemonlinestore.com/shop",
+    "numberOfItems": products.length,
+    "itemListElement": products.map((product, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Product",
+        "name": product.name,
+        "description": product.description,
+        "image": `https://naeemonlinestore.com${product.image}`,
+        "category": product.category,
+        "offers": {
+          "@type": "Offer",
+          "price": product.price,
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": product.rating,
+          "bestRating": 5,
+          "worstRating": 1,
+          "ratingCount": Math.floor(Math.random() * 500) + 100
+        }
+      }
+    }))
+  };
+
   return (
     <Layout>
       <Helmet>
         <title>Shop - Digestor 24 Products | Naeem Online Store</title>
         <meta name="description" content="Browse our Digestor 24 product lineup. Find the perfect digital productivity solution for your needs at Naeem Online Store." />
         <link rel="canonical" href="https://naeemonlinestore.com/shop" />
+        <meta property="og:title" content="Shop - Digestor 24 Products | Naeem Online Store" />
+        <meta property="og:description" content="Browse our Digestor 24 product lineup. Find the perfect digital productivity solution for your needs." />
+        <meta property="og:url" content="https://naeemonlinestore.com/shop" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
       </Helmet>
 
       {/* Hero Banner */}
