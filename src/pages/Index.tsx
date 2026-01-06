@@ -37,6 +37,7 @@ const Index = () => {
         <title>Naeem Online Store - AI-Powered Digital Products & Free Tools</title>
         <meta name="description" content="Discover AI-powered digital products, Digestor 24 solutions, and free online tools at Naeem Online Store. Your destination for innovative digital solutions." />
         <link rel="canonical" href="https://naeemonlinestore.com" />
+        <link rel="preload" as="image" href={heroBanner} fetchPriority="high" />
       </Helmet>
 
       {/* Hero Section */}
