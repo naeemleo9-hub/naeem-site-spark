@@ -101,12 +101,36 @@ const Contact = () => {
     }
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://naeemonlinestore.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact",
+        "item": "https://naeemonlinestore.com/contact"
+      }
+    ]
+  };
+
   return (
     <Layout>
       <Helmet>
         <title>Contact Us - Get in Touch | Naeem Online Store</title>
         <meta name="description" content="Have questions? Contact Naeem Online Store for support, inquiries, or feedback. We're here to help you with our products and services." />
         <link rel="canonical" href="https://naeemonlinestore.com/contact" />
+        <meta property="og:title" content="Contact Us - Get in Touch | Naeem Online Store" />
+        <meta property="og:description" content="Have questions? Contact Naeem Online Store for support, inquiries, or feedback." />
+        <meta property="og:url" content="https://naeemonlinestore.com/contact" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       {/* Hero Section */}

@@ -31,6 +31,19 @@ const features = [
 ];
 
 const Index = () => {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://naeemonlinestore.com"
+      }
+    ]
+  };
+
   return (
     <Layout>
       <Helmet>
@@ -38,6 +51,7 @@ const Index = () => {
         <meta name="description" content="Discover AI-powered digital products, Digestor 24 solutions, and free online tools at Naeem Online Store. Your destination for innovative digital solutions." />
         <link rel="canonical" href="https://naeemonlinestore.com" />
         <link rel="preload" as="image" href={heroBanner} fetchPriority="high" />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       {/* Hero Section */}

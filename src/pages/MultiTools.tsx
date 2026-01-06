@@ -82,12 +82,60 @@ const MultiTools = () => {
     return matchesCategory && matchesSearch;
   });
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://naeemonlinestore.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Free Tools",
+        "item": "https://naeemonlinestore.com/tools"
+      }
+    ]
+  };
+
+  const toolsSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Free Online Tools",
+    "description": "40+ free online tools for file conversion, image editing, video processing, and more.",
+    "numberOfItems": tools.length,
+    "itemListElement": tools.slice(0, 10).map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "SoftwareApplication",
+        "name": tool.name,
+        "description": tool.description,
+        "applicationCategory": tool.category,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    }))
+  };
+
   return (
     <Layout>
       <Helmet>
         <title>Free Online Tools - PDF, Image, Video, Audio Tools | Naeem Online Store</title>
         <meta name="description" content="Access 40+ free online tools for PDF conversion, image editing, video compression, audio tools, and more. No registration required." />
         <link rel="canonical" href="https://naeemonlinestore.com/tools" />
+        <meta property="og:title" content="Free Online Tools - PDF, Image, Video, Audio | Naeem Online Store" />
+        <meta property="og:description" content="Access 40+ free online tools for PDF conversion, image editing, video compression, and more." />
+        <meta property="og:url" content="https://naeemonlinestore.com/tools" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(toolsSchema)}</script>
       </Helmet>
 
       {/* Hero Section */}

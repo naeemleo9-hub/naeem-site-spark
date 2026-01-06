@@ -80,6 +80,25 @@ const Shop = () => {
     ? products
     : products.filter(p => p.category === activeCategory);
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://naeemonlinestore.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Shop",
+        "item": "https://naeemonlinestore.com/shop"
+      }
+    ]
+  };
+
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -123,6 +142,7 @@ const Shop = () => {
         <meta property="og:description" content="Browse our Digestor 24 product lineup. Find the perfect digital productivity solution for your needs." />
         <meta property="og:url" content="https://naeemonlinestore.com/shop" />
         <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
       </Helmet>
 

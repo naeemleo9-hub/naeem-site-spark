@@ -41,6 +41,25 @@ const stats = [
 ];
 
 const About = () => {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://naeemonlinestore.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://naeemonlinestore.com/about"
+      }
+    ]
+  };
+
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -79,6 +98,7 @@ const About = () => {
         <meta property="og:description" content="Learn about Naeem Online Store's mission to deliver AI-powered digital solutions." />
         <meta property="og:url" content="https://naeemonlinestore.com/about" />
         <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(aboutSchema)}</script>
       </Helmet>
 
