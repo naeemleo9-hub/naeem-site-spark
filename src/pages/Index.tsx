@@ -47,6 +47,10 @@ const Index = () => {
             src={heroBanner}
             alt="Naeem Online Store - Digital innovation and AI technology"
             className="w-full h-full object-cover"
+            width={1504}
+            height={846}
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
         </div>
@@ -191,6 +195,9 @@ const Index = () => {
                   src={aiFeature}
                   alt="AI-powered design customization interface"
                   className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                  width={584}
+                  height={374}
+                  loading="lazy"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-2xl bg-gradient-to-br from-google-blue to-google-sky flex items-center justify-center shadow-xl animate-float">
@@ -217,6 +224,9 @@ const Index = () => {
                   src={productDigestor}
                   alt="Digestor 24 - Premium digital productivity software"
                   className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                  width={584}
+                  height={584}
+                  loading="lazy"
                 />
               </div>
             </motion.div>
@@ -295,6 +305,9 @@ const Index = () => {
                   src={toolsHub}
                   alt="Free online tools collection for file conversion and editing"
                   className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                  width={584}
+                  height={374}
+                  loading="lazy"
                 />
               </div>
             </motion.div>
