@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { ExternalLink, ShoppingCart, Tag, Star, Filter, Grid, List } from 'lucide-react';
+import { ExternalLink, ShoppingCart, Star, Filter, Grid, List, Calendar, User, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/layout/Layout';
@@ -57,28 +57,93 @@ const blogPosts = [
   {
     id: 1,
     title: 'Getting Started with AI-Powered Productivity',
-    excerpt: 'Learn how to leverage AI tools to boost your daily productivity and streamline your workflow.',
+    excerpt: 'Learn how to leverage AI tools to boost your daily productivity and streamline your workflow with practical tips and strategies.',
     date: 'January 5, 2026',
     category: 'Tips & Tricks',
+    author: 'Naeem Ahmed',
+    readTime: '5 min read',
   },
   {
     id: 2,
     title: 'Top 10 Features of Digistore 24',
-    excerpt: 'Discover the powerful features that make Digistore 24 the ultimate productivity solution.',
+    excerpt: 'Discover the powerful features that make Digistore 24 the ultimate productivity solution for professionals and businesses.',
     date: 'January 3, 2026',
     category: 'Product Updates',
+    author: 'Naeem Ahmed',
+    readTime: '7 min read',
+  },
+  {
+    id: 3,
+    title: 'How to Maximize Your Digital Workflow',
+    excerpt: 'Expert strategies for organizing your digital workspace and automating repetitive tasks to save hours every week.',
+    date: 'December 28, 2025',
+    category: 'Tips & Tricks',
+    author: 'Naeem Ahmed',
+    readTime: '6 min read',
+  },
+  {
+    id: 4,
+    title: 'Introducing Digistore 24 Enterprise Edition',
+    excerpt: 'Our new enterprise solution brings advanced collaboration features, analytics dashboard, and priority support for teams.',
+    date: 'December 20, 2025',
+    category: 'Product Updates',
+    author: 'Naeem Ahmed',
+    readTime: '4 min read',
+  },
+  {
+    id: 5,
+    title: 'The Future of AI in Digital Products',
+    excerpt: 'Explore how artificial intelligence is reshaping digital tools and what it means for your productivity in the coming years.',
+    date: 'December 15, 2025',
+    category: 'Industry News',
+    author: 'Naeem Ahmed',
+    readTime: '8 min read',
+  },
+  {
+    id: 6,
+    title: 'Case Study: How Businesses Save Time with Digistore 24',
+    excerpt: 'Real success stories from businesses that transformed their operations using our digital productivity solutions.',
+    date: 'December 10, 2025',
+    category: 'Case Studies',
+    author: 'Naeem Ahmed',
+    readTime: '10 min read',
+  },
+  {
+    id: 7,
+    title: 'Essential Tools Every Student Needs in 2026',
+    excerpt: 'A comprehensive guide to digital tools that help students stay organized, productive, and ahead of their studies.',
+    date: 'December 5, 2025',
+    category: 'Education',
+    author: 'Naeem Ahmed',
+    readTime: '6 min read',
+  },
+  {
+    id: 8,
+    title: 'Monthly Roundup: December 2025 Updates',
+    excerpt: 'A summary of all the new features, improvements, and bug fixes we shipped in December 2025.',
+    date: 'December 1, 2025',
+    category: 'Product Updates',
+    author: 'Naeem Ahmed',
+    readTime: '3 min read',
   },
 ];
+
+const blogCategories = ['All', 'Tips & Tricks', 'Product Updates', 'Industry News', 'Case Studies', 'Education'];
 
 const Shop = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [activeBlogCategory, setActiveBlogCategory] = useState('All');
 
   const categories = ['All', 'Software', 'Business', 'Education'];
 
   const filteredProducts = activeCategory === 'All'
     ? products
     : products.filter(p => p.category === activeCategory);
+
+  const filteredBlogPosts = activeBlogCategory === 'All'
+    ? blogPosts
+    : blogPosts.filter(p => p.category === activeBlogCategory);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -281,37 +346,102 @@ const Shop = () => {
       </section>
 
       {/* Blog Section */}
-      <section className="section-padding bg-secondary/30">
+      <section className="section-padding bg-secondary/30" id="blog">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-heading font-bold mb-4">Latest Blog Posts</h2>
-            <p className="text-muted-foreground">Stay updated with tips, news, and product updates</p>
+          {/* Blog Header */}
+          <div className="text-center mb-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-google-green/10 text-google-green text-sm font-medium mb-4"
+            >
+              <BookOpen className="w-4 h-4" />
+              Our Blog
+            </motion.div>
+            <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-4">Latest Articles & Updates</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Stay informed with tips, tutorials, product updates, and industry insights
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {blogPosts.map((post, index) => (
+          {/* Blog Category Filters */}
+          <div className="flex items-center justify-center gap-2 flex-wrap mb-10">
+            {blogCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveBlogCategory(cat)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  activeBlogCategory === cat
+                    ? 'bg-google-green text-primary-foreground'
+                    : 'bg-card text-foreground border border-border hover:border-google-green/50'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Blog Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredBlogPosts.map((post, index) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-card rounded-2xl p-6 border border-border card-hover"
+                transition={{ delay: index * 0.05 }}
+                className="bg-card rounded-2xl overflow-hidden border border-border card-hover group"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-google-blue/10 text-google-blue text-xs font-medium rounded-full">
-                    {post.category}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{post.date}</span>
+                {/* Blog Card Header */}
+                <div className="h-3 bg-gradient-to-r from-google-blue via-google-red to-google-yellow" />
+                
+                <div className="p-6">
+                  {/* Category & Date */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="px-3 py-1 bg-google-blue/10 text-google-blue text-xs font-medium rounded-full">
+                      {post.category}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-heading font-semibold text-xl mb-3 group-hover:text-google-blue transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+
+                  {/* Excerpt */}
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+
+                  {/* Meta Info */}
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4 pt-4 border-t border-border">
+                    <span className="flex items-center gap-1">
+                      <User className="w-3 h-3" />
+                      {post.author}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {post.date}
+                    </span>
+                    <span>{post.readTime}</span>
+                  </div>
+
+                  {/* Read More Button */}
+                  <Button variant="outline" size="sm" className="w-full group-hover:bg-google-blue group-hover:text-primary-foreground group-hover:border-google-blue transition-all">
+                    Read Article <ExternalLink className="w-3 h-3 ml-2" />
+                  </Button>
                 </div>
-                <h3 className="font-heading font-semibold text-xl mb-3">{post.title}</h3>
-                <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                <Button variant="link" className="p-0">
-                  Read More <ExternalLink className="w-3 h-3 ml-1" />
-                </Button>
               </motion.article>
             ))}
           </div>
+
+          {/* Show message if no posts */}
+          {filteredBlogPosts.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No blog posts found in this category.</p>
+            </div>
+          )}
         </div>
       </section>
     </Layout>
