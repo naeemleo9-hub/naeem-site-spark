@@ -18,8 +18,8 @@ const features = [
   },
   {
     icon: Zap,
-    title: 'Digestor 24 Products',
-    description: 'Discover our flagship Digestor 24 line of digital products designed to boost your productivity.',
+    title: 'Digistore 24 Products',
+    description: 'Discover our flagship Digistore 24 line of digital products designed to boost your productivity.',
     color: 'google-red',
   },
   {
@@ -48,7 +48,7 @@ const Index = () => {
     <Layout>
       <Helmet>
         <title>Naeem Online Store - AI-Powered Digital Products & Free Tools</title>
-        <meta name="description" content="Discover AI-powered digital products, Digestor 24 solutions, and free online tools at Naeem Online Store. Your destination for innovative digital solutions." />
+        <meta name="description" content="Discover AI-powered digital products, Digistore 24 solutions, and free online tools at Naeem Online Store. Your destination for innovative digital solutions." />
         <link rel="canonical" href="https://naeemonlinestore.com" />
         <link rel="preload" as="image" href={heroBanner} fetchPriority="high" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
@@ -99,7 +99,7 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg sm:text-xl text-muted-foreground mb-8"
             >
-              Your one-stop destination for AI-powered digital products, Digestor 24 solutions, and a comprehensive suite of free online tools.
+              Your one-stop destination for AI-powered digital products, Digistore 24 solutions, and a comprehensive suite of free online tools.
             </motion.p>
 
             <motion.div
@@ -237,7 +237,7 @@ const Index = () => {
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
                   src={productDigestor}
-                  alt="Digestor 24 - Premium digital productivity software"
+                  alt="Digistore 24 - Premium digital productivity software"
                   className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
                   width={584}
                   height={584}
@@ -255,7 +255,7 @@ const Index = () => {
             >
               <span className="text-google-red font-medium mb-4 block">Featured Product</span>
               <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-6">
-                Digestor 24
+                Digistore 24
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
                 Our flagship digital product designed to streamline your workflow and boost productivity. Experience the power of intelligent automation.

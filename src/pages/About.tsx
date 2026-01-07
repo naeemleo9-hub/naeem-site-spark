@@ -69,7 +69,7 @@ const About = () => {
     "mainEntity": {
       "@type": "Organization",
       "name": "Naeem Online Store",
-      "description": "Your one-stop destination for AI-powered digital products, Digestor 24 solutions, and free online tools.",
+      "description": "Your one-stop destination for AI-powered digital products, Digistore 24 solutions, and free online tools.",
       "url": "https://naeemonlinestore.com",
       "foundingDate": "2023",
       "numberOfEmployees": {
@@ -119,7 +119,7 @@ const About = () => {
                 At Naeem Online Store, we believe in making powerful digital tools accessible to everyone. Our mission is to provide AI-driven solutions that simplify your workflow and enhance productivity.
               </p>
               <p className="text-muted-foreground text-lg">
-                From our flagship Digestor 24 products to our comprehensive suite of free online tools, every solution we create is designed with you in mind.
+                From our flagship Digistore 24 products to our comprehensive suite of free online tools, every solution we create is designed with you in mind.
               </p>
             </motion.div>
 
@@ -214,7 +214,7 @@ const About = () => {
               <div className="bg-card rounded-xl p-6 border border-border">
                 <h3 className="font-heading font-semibold text-xl text-google-red mb-2">Premium Digital Products</h3>
                 <p className="text-muted-foreground">
-                  Our Digestor 24 product line offers powerful productivity solutions designed to streamline your workflow and boost efficiency.
+                  Our Digistore 24 product line offers powerful productivity solutions designed to streamline your workflow and boost efficiency.
                 </p>
               </div>
               <div className="bg-card rounded-xl p-6 border border-border">
