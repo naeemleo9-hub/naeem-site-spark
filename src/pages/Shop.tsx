@@ -9,7 +9,7 @@ import productDigestor from '@/assets/product-digestor.jpg';
 const products = [
   {
     id: 1,
-    name: 'Digestor 24 Pro',
+    name: 'Digistore 24 Pro',
     description: 'Advanced digital productivity suite with AI-powered automation features.',
     price: 49.99,
     originalPrice: 79.99,
@@ -20,7 +20,7 @@ const products = [
   },
   {
     id: 2,
-    name: 'Digestor 24 Lite',
+    name: 'Digistore 24 Lite',
     description: 'Essential productivity tools for everyday tasks and workflows.',
     price: 29.99,
     originalPrice: 39.99,
@@ -31,7 +31,7 @@ const products = [
   },
   {
     id: 3,
-    name: 'Digestor 24 Enterprise',
+    name: 'Digistore 24 Enterprise',
     description: 'Complete business solution with team collaboration and analytics.',
     price: 99.99,
     originalPrice: 149.99,
@@ -42,7 +42,7 @@ const products = [
   },
   {
     id: 4,
-    name: 'Digestor 24 Student',
+    name: 'Digistore 24 Student',
     description: 'Perfect for students with special pricing and educational features.',
     price: 14.99,
     originalPrice: 24.99,
@@ -63,8 +63,8 @@ const blogPosts = [
   },
   {
     id: 2,
-    title: 'Top 10 Features of Digestor 24',
-    excerpt: 'Discover the powerful features that make Digestor 24 the ultimate productivity solution.',
+    title: 'Top 10 Features of Digistore 24',
+    excerpt: 'Discover the powerful features that make Digistore 24 the ultimate productivity solution.',
     date: 'January 3, 2026',
     category: 'Product Updates',
   },
@@ -102,8 +102,8 @@ const Shop = () => {
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "Digestor 24 Products",
-    "description": "Browse our Digestor 24 product lineup for digital productivity solutions.",
+    "name": "Digistore 24 Products",
+    "description": "Browse our Digistore 24 product lineup for digital productivity solutions.",
     "url": "https://naeemonlinestore.com/shop",
     "numberOfItems": products.length,
     "itemListElement": products.map((product, index) => ({
@@ -135,11 +135,11 @@ const Shop = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Shop - Digestor 24 Products | Naeem Online Store</title>
-        <meta name="description" content="Browse our Digestor 24 product lineup. Find the perfect digital productivity solution for your needs at Naeem Online Store." />
+        <title>Shop - Digistore 24 Products | Naeem Online Store</title>
+        <meta name="description" content="Browse our Digistore 24 product lineup. Find the perfect digital productivity solution for your needs at Naeem Online Store." />
         <link rel="canonical" href="https://naeemonlinestore.com/shop" />
-        <meta property="og:title" content="Shop - Digestor 24 Products | Naeem Online Store" />
-        <meta property="og:description" content="Browse our Digestor 24 product lineup. Find the perfect digital productivity solution for your needs." />
+        <meta property="og:title" content="Shop - Digistore 24 Products | Naeem Online Store" />
+        <meta property="og:description" content="Browse our Digistore 24 product lineup. Find the perfect digital productivity solution for your needs." />
         <meta property="og:url" content="https://naeemonlinestore.com/shop" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
@@ -162,7 +162,7 @@ const Shop = () => {
             transition={{ delay: 0.1 }}
             className="text-primary-foreground/80 text-lg max-w-2xl mx-auto"
           >
-            Discover our premium Digestor 24 product line and digital solutions
+            Discover our premium Digistore 24 product line and digital solutions
           </motion.p>
         </div>
       </section>
